@@ -1,6 +1,6 @@
-# Gas Form System
+# Gas Form 
 
-This repository contains the Gas Form System for the Montana Dinosaur Center. The system is designed to streamline the process of recording and managing fuel transactions for museum vehicles.
+This repository contains the Gas Form System for the Montana Dinosaur Center. The system is designed to streamline the process of recording and managing fuel transactions for museum vehicles. The form submission links to TMDC's Lubelogger via API to track mileage and fill ups.
 
 ## Features
 
