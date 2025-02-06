@@ -58,22 +58,32 @@ export async function submitFillup(data: {
   vehicleId: string
   mileage: number
   gallons: number
+  cost: number
+  isFillToFull?: boolean
+  missedFuelUp?: boolean
+  notes?: string
+  tags?: string
 }) {
   const token = await getAuthToken()
 
-  const response = await fetch(`${process.env.LUBELOGGER_API_URL}/api/fillups`, {
+  const formData = new FormData()
+  formData.append("vehicleId", data.vehicleId)
+  formData.append("date", new Date().toISOString()) // Send current date/time
+  formData.append("odometer", data.mileage.toString())
+  formData.append("fuelConsumed", data.gallons.toString()) // Correct field name
+  formData.append("cost", data.cost.toString()) // Required by API
+  formData.append("isFillToFull", (data.isFillToFull ?? true).toString()) // Default: true
+  formData.append("missedFuelUp", (data.missedFuelUp ?? false).toString()) // Default: false
+
+  if (data.notes) formData.append("notes", data.notes)
+  if (data.tags) formData.append("tags", data.tags)
+
+  const response = await fetch(`${process.env.LUBELOGGER_API_URL}/api/vehicle/gasrecords/add`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      employee: data.name,
-      vehicle_id: data.vehicleId,
-      odometer: data.mileage,
-      gallons: data.gallons,
-      date: new Date().toISOString(),
-    }),
+    body: formData, // Use form-data instead of JSON
   })
 
   if (!response.ok) {
@@ -83,4 +93,3 @@ export async function submitFillup(data: {
 
   return response.json()
 }
-
