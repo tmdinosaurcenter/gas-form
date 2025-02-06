@@ -1,0 +1,74 @@
+# Ignore VS Code workspace settings
+.vscode/
+.vscode/*
+
+# Ignore environment variables (for handling Lubelogger API credentials)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*
+!.env.example  # Keep an example file for reference
+
+# Ignore Node.js dependencies (if using Node.js)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled files and logs
+dist/
+build/
+*.log
+*.out
+*.lock
+
+# Ignore Python virtual environments (if applicable)
+venv/
+__pycache__/
+*.pyc
+
+# Ignore temporary files
+tmp/
+*.swp
+*.swo
+*.bak
+
+# Ignore Git metadata backups
+*.orig
+
+# Ignore uploads and cache (if any)
+uploads/
+.cache/
+
+# Ignore Google Drive temp files and metadata
+*.gdoc
+*.gsheet
+*.gslides
+*.gdraw
+*.gtable
+*.gform
+*.gmap
+*.gsite
+*.gshortcut
+*.gjam
+
+# Ignore Google Drive sync temp files
+*.tmp
+*.temp
+~$*
+*.gdtmp
+*.crdownload
+*.download
+
+# Ignore Windows-specific Google Drive conflict files
+* (Conflict Copy)*
+* (Conflicted Copy)*
+
+# Ignore desktop.ini and Thumbs.db (Windows system files)
+desktop.ini
