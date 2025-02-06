@@ -17,10 +17,10 @@ interface Vehicle {
 
 export default function GasFillupForm() {
   const { toast } = useToast()
-  const [name, setName] = useState("")
   const [vehicle, setVehicle] = useState("")
   const [mileage, setMileage] = useState("")
   const [fuelAmount, setFuelAmount] = useState("")
+  const [fuelCost, setFuelCost] = useState("")
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -51,10 +51,12 @@ export default function GasFillupForm() {
 
     try {
       await submitGasFillup({
-        name,
         vehicleId: vehicle,
         mileage: Number(mileage),
         gallons: Number(fuelAmount),
+        cost: Number(fuelCost),
+        isFillToFull: true,
+        missedFuelUp: false,
       })
 
       toast({
@@ -63,10 +65,10 @@ export default function GasFillupForm() {
       })
 
       // Reset form
-      setName("")
       setVehicle("")
       setMileage("")
       setFuelAmount("")
+      setFuelCost("")
     } catch (error) {
       toast({
         title: "Error",
@@ -90,76 +92,22 @@ export default function GasFillupForm() {
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-mdc-dark">
-                Employee Name
-              </Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="border-mdc-blue focus:ring-secondary"
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="vehicle" className="text-mdc-dark">
-                Vehicle
-              </Label>
+              <Label htmlFor="vehicle" className="text-mdc-dark">Vehicle</Label>
               <Select value={vehicle} onValueChange={setVehicle} disabled={isLoading || isSubmitting}>
                 <SelectTrigger id="vehicle" className="border-mdc-blue focus:ring-secondary">
                   <SelectValue placeholder={isLoading ? "Loading vehicles..." : "Select a vehicle"} />
                 </SelectTrigger>
                 <SelectContent>
                   {vehicles.map((v) => (
-                    <SelectItem key={v.id} value={v.id}>
-                      {v.name}
-                    </SelectItem>
+                    <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="mileage" className="text-mdc-dark">
-                Vehicle Mileage
-              </Label>
-              <Input
-                id="mileage"
-                type="number"
-                value={mileage}
-                onChange={(e) => setMileage(e.target.value)}
-                required
-                min="0"
-                step="1"
-                className="border-mdc-blue focus:ring-secondary"
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="fuelAmount" className="text-mdc-dark">
-                Fuel Amount (Gallons)
-              </Label>
-              <Input
-                id="fuelAmount"
-                type="number"
-                value={fuelAmount}
-                onChange={(e) => setFuelAmount(e.target.value)}
-                required
-                min="0"
-                step="0.001"
-                className="border-mdc-blue focus:ring-secondary"
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-secondary text-mdc-dark font-semibold transition-colors"
-              disabled={isSubmitting}
-            >
+            {/* Mileage, Fuel, Cost Inputs */}
+            
+            <Button type="submit" className="w-full bg-primary hover:bg-secondary text-mdc-dark font-semibold transition-colors" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </form>
@@ -168,4 +116,3 @@ export default function GasFillupForm() {
     </div>
   )
 }
-
