@@ -27,14 +27,19 @@ To use or modify the Gas Form System, ensure you have:
    cd gas-form```
 
 2. Open index.html in a web browser to access the form.
+
 ## Usage
+
 1. Enter the required information, including:
- - Vehicle information
- - Mileage at time of fill up
- - Fuel quantity
- - Fuel cost
+   - Vehicle information
+   -  Mileage at time of fill up
+   - Fuel quantity
+   - Fuel cost
+
 2. Submit the form to log the entry.
+
 ## Contribution
+
 Contributions are welcome! To contribute:
 
 1. Fork the repository.
@@ -42,5 +47,7 @@ Contributions are welcome! To contribute:
 3. Commit your changes `(git commit -m "Add new feature")`.
 4. Push to the branch `(git push origin feature-branch)`.
 5. Create a Pull Request.
+
 ## License
+
 This project is licensed under the MIT License. See the [LICENSE] file for details.
