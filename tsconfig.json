@@ -16,11 +16,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "baseUrl": ".", // ✅ Add this
+    "paths": { // ✅ Add this
+      "@/*": [
+        "./*"
+      ], // ✅ Ensures "@/components/..." resolves correctly
+      "@/components/*": [
+        "components/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
