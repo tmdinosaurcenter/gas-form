@@ -27,7 +27,7 @@ To use or modify the Gas Form System, ensure you have:
    cd gas-form
    ```
 
-2. Open index.html in a web browser to access the form.
+2. Open `index.html` in a web browser to access the form.
 
 ## Usage
 
