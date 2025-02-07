@@ -17,13 +17,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".", // ✅ Add this
-    "paths": { // ✅ Add this
-      "@/*": [
-        "./*"
-      ], // ✅ Ensures "@/components/..." resolves correctly
-      "@/components/*": [
-        "components/*"
-      ]
+    "paths": {
+    "@/*": ["./*"],
+    "@/lib/*": ["lib/*"],
+    "@/components/*": ["components/*"],
+    "@/components/ui/*": ["components/ui/*"]
     },
     "plugins": [
       {

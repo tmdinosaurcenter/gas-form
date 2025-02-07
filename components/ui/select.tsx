@@ -7,4 +7,3 @@ export function Select({ children, ...props }: React.SelectHTMLAttributes<HTMLSe
     </select>
   )
 }
-
