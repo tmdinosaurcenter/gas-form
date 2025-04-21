@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Fuel Record</title>
+</head>
+
+<body>
+    <h1>Add Fuel Record</h1>
+
+    <form id="fuelForm">
+        <label>
+            Vehicle:
+            <select id="vehicleSelect" required>
+                <option value="">Loading…</option>
+            </select>
+        </label>
+        <br /><br />
+
+        <label>
+            Date:
+            <input type="date" id="date" required>
+        </label>
+        <br /><br />
+
+        <label>
+            Odometer:
+            <input type="number" id="odometer" required>
+        </label>
+        <br /><br />
+
+        <label>
+            Gallons (fuelConsumed):
+            <input type="number" step="0.01" id="fuelConsumed" required>
+        </label>
+        <br /><br />
+
+        <label>
+            Cost:
+            <input type="number" step="0.01" id="cost" required>
+        </label>
+        <br /><br />
+
+        <label>
+            Fill to full:
+            <input type="checkbox" id="isFillToFull">
+        </label>
+        <br /><br />
+
+        <label>
+            Notes:
+            <textarea id="notes"></textarea>
+        </label>
+        <br /><br />
+
+        <label>
+            Tags (comma‑separated):
+            <input type="text" id="tags">
+        </label>
+        <br /><br />
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        // ** CONFIGURE **
+        const BASE_URL = 'https://cars.dogiakos.com';
+        const USERNAME = 'YOUR_USERNAME';
+        const PASSWORD = 'YOUR_PASSWORD';
+
+        // helper to format date as MM/DD/YYYY for locale-sensitive API
+        function fmtDate(d) {
+            const [y, m, day] = d.split('-');
+            return `${m}/${day}/${y}`;
+        }
+
+        // populate vehicles dropdown
+        async function loadVehicles() {
+            const res = await fetch(`${BASE_URL}/api/vehicles`, {
+                headers: {
+                    'Authorization': 'Basic ' + btoa(USERNAME + ':' + PASSWORD)
+                }
+            });
+            const vehicles = await res.json();
+            const sel = document.getElementById('vehicleSelect');
+            sel.innerHTML = '<option value="">Select…</option>';
+            vehicles.forEach(v => {
+                sel.innerHTML += `<option value="${v.id}">
+          ${v.year} ${v.make} ${v.model}
+        </option>`;
+            });
+        }
+
+        document.getElementById('fuelForm')
+            .addEventListener('submit', async e => {
+                e.preventDefault();
+                const vid = document.getElementById('vehicleSelect').value;
+                if (!vid) return alert('Pick a vehicle');
+
+                const payload = {
+                    date: fmtDate(document.getElementById('date').value),
+                    odometer: Number(document.getElementById('odometer').value),
+                    fuelConsumed: Number(document.getElementById('fuelConsumed').value),
+                    cost: Number(document.getElementById('cost').value),
+                    isFillToFull: document.getElementById('isFillToFull').checked,
+                    notes: document.getElementById('notes').value,
+                    tags: document.getElementById('tags').value,
+                    // you can add missedFuelUp, extraFields, etc.
+                };
+
+                const submitUrl = `${BASE_URL}/api/vehicle/gasrecords/add?vehicleId=${vid}`;
+                const res = await fetch(submitUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Basic ' + btoa(USERNAME + ':' + PASSWORD)
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const msg = document.getElementById('message');
+                if (res.ok) {
+                    msg.textContent = '✅ Fuel record added!';
+                    e.target.reset();
+                } else {
+                    const txt = await res.text();
+                    msg.textContent = `❌ Error (${res.status}): ${txt}`;
+                }
+            });
+
+        // kick it off
+        loadVehicles();
+    </script>
+</body>
+
+</html>
